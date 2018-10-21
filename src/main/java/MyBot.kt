@@ -17,21 +17,19 @@ object MyBot {
             val me = game.me
             val gameMap = game.gameMap
 
-            val commandQueue = ArrayList<Command>()
+            val commandQueue = mutableListOf<Command>()
 
-            for (ship in me.ships.values) {
-                if ((gameMap.at(ship)?.halite ?: 0) < Constants.MAX_HALITE / 10 || ship.isFull) {
-                    val randomDirection = Direction.ALL_CARDINALS[Random().nextInt(4)]
-                    commandQueue.add(ship.move(randomDirection))
-                } else {
-                    commandQueue.add(ship.stayStill())
+            when (game.turnNumber) {
+                1 -> commandQueue.add(me.shipyard.spawn())
+                2 -> {
+                    commandQueue.add(me.s2[0].move(Direction.NORTH))
                 }
-            }
-
-            if (game.turnNumber <= 200 &&
-                    me.halite >= Constants.SHIP_COST &&
-                    gameMap.at(me.shipyard)?.isOccupied != true) {
-                commandQueue.add(me.shipyard.spawn())
+                3 -> commandQueue.add(me.s2[0].move(Direction.NORTH))
+                4 -> commandQueue.add(me.s2[0].move(Direction.NORTH))
+                5 -> {
+                    commandQueue.add(me.shipyard.spawn())
+                }
+                in (6..10) -> commandQueue.add(me.s2[0].move(Direction.NORTH))
             }
 
             game.endTurn(commandQueue)

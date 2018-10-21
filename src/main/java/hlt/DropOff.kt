@@ -1,12 +1,12 @@
 package hlt
 
-class DropOff(owner: PlayerId, id: EntityId, position: Position) : Entity(owner, id, position) {
-    companion object {
+class DropOff(owner: Int, id: Int, position: Position) : Entity(owner, id, position) {
 
-        internal fun generate(playerId: PlayerId): DropOff {
+    companion object {
+        internal fun read(playerId: Int): DropOff {
             val input = Input.readInput()
 
-            val dropOffId = EntityId(input.nextInt)
+            val dropOffId = input.nextInt
             val x = input.nextInt
             val y = input.nextInt
 

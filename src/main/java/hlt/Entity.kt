@@ -1,3 +1,3 @@
 package hlt
 
-open class Entity(val owner: PlayerId, val id: EntityId, val position: Position)
+open class Entity(val owner: Int, val id: Int, val position: Position)

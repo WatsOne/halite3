@@ -1,6 +1,6 @@
 package hlt
 
-class Ship(owner: PlayerId, id: EntityId, position: Position, val halite: Int) : Entity(owner, id, position) {
+class Ship(owner: Int, id: Int, position: Position, val halite: Int) : Entity(owner, id, position) {
 
     val isFull: Boolean
         get() = halite >= Constants.MAX_HALITE
@@ -18,11 +18,10 @@ class Ship(owner: PlayerId, id: EntityId, position: Position, val halite: Int) :
     }
 
     companion object {
-
-        internal fun _generate(playerId: PlayerId): Ship {
+        internal fun read(playerId: Int): Ship {
             val input = Input.readInput()
 
-            val shipId = EntityId(input.nextInt)
+            val shipId = input.nextInt
             val x = input.nextInt
             val y = input.nextInt
             val halite = input.nextInt

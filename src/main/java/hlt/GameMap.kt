@@ -78,7 +78,7 @@ class GameMap(private val width: Int, private val height: Int) {
         return Direction.STILL
     }
 
-    internal fun _update() {
+    internal fun read() {
         for (y in 0 until height) {
             for (x in 0 until width) {
                 cells[y]?.get(x)?.ship = null
@@ -97,8 +97,7 @@ class GameMap(private val width: Int, private val height: Int) {
     }
 
     companion object {
-
-        internal fun _generate(): GameMap {
+        internal fun update(): GameMap {
             val mapInput = Input.readInput()
             val width = mapInput.nextInt
             val height = mapInput.nextInt

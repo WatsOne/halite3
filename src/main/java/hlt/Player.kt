@@ -1,38 +1,37 @@
 package hlt
 
-import java.util.*
-
-class Player private constructor(val id: PlayerId, val shipyard: Shipyard) {
+class Player(val id: Int, val shipyard: Shipyard) {
     var halite: Int = 0
-    val ships: MutableMap<EntityId, Ship> = LinkedHashMap()
-    val dropoffs: MutableMap<EntityId, DropOff> = LinkedHashMap()
+    val ships = mutableMapOf<Int, Ship>()
+    val s2 = mutableListOf<Ship>()
+    val dropoffs = mutableMapOf<Int, DropOff>()
 
-    internal fun _update(numShips: Int, numDropoffs: Int, halite: Int) {
+    internal fun update(numShips: Int, numDropoffs: Int, halite: Int) {
         this.halite = halite
 
         ships.clear()
         for (i in 0 until numShips) {
-            val ship = Ship._generate(id)
-            ships.put(ship.id, ship)
+            val ship = Ship.read(id)
+            ships[ship.id] = ship
+            s2.add(ship)
         }
 
         dropoffs.clear()
         for (i in 0 until numDropoffs) {
-            val dropoff = DropOff.generate(id)
-            dropoffs.put(dropoff.id, dropoff)
+            val dropoff = DropOff.read(id)
+            dropoffs[dropoff.id] = dropoff
         }
     }
 
     companion object {
-
-        internal fun _generate(): Player {
+        internal fun read(): Player {
             val input = Input.readInput()
 
-            val playerId = PlayerId(input.nextInt)
-            val shipyard_x = input.nextInt
-            val shipyard_y = input.nextInt
+            val playerId = input.nextInt
+            val shipyardX = input.nextInt
+            val shipyardY = input.nextInt
 
-            return Player(playerId, Shipyard(playerId, Position(shipyard_x, shipyard_y)))
+            return Player(playerId, Shipyard(playerId, Position(shipyardX, shipyardY)))
         }
     }
 }

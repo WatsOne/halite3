@@ -1,11 +1,9 @@
 package hlt
 
-import java.util.*
-
 class Game {
     var turnNumber: Int = 0
-    val myId: PlayerId
-    val players: ArrayList<Player> = ArrayList()
+    val myId: Int
+    val players =  mutableListOf<Player>()
     val me: Player
     val gameMap: GameMap
 
@@ -14,15 +12,15 @@ class Game {
 
         val input = Input.readInput()
         val numPlayers = input.nextInt
-        myId = PlayerId(input.nextInt)
+        myId = input.nextInt
 
-        Log.open(myId.id)
+        Log.open(myId)
 
         for (i in 0 until numPlayers) {
-            players.add(Player._generate())
+            players.add(Player.read())
         }
-        me = players[myId.id]
-        gameMap = GameMap._generate()
+        me = players[myId]
+        gameMap = GameMap.update()
     }
 
     fun ready(name: String) {
@@ -36,15 +34,15 @@ class Game {
         for (i in 0 until players.size) {
             val input = Input.readInput()
 
-            val currentPlayerId = PlayerId(input.nextInt)
+            val currentPlayerId = input.nextInt
             val numShips = input.nextInt
             val numDropoffs = input.nextInt
             val halite = input.nextInt
 
-            players[currentPlayerId.id]._update(numShips, numDropoffs, halite)
+            players[currentPlayerId].update(numShips, numDropoffs, halite)
         }
 
-        gameMap._update()
+        gameMap.read()
 
         for (player in players) {
             for (ship in player.ships.values) {
